@@ -10,11 +10,11 @@ const inventorySchema = new Schema<TInventory>({
   quantity: {
     type: Number,
     required: [true, 'Inventory quantity is required'],
-    min: [0, 'Inventory quantity cannot be less than 0'],
+    min: [1, 'Inventory quantity cannot be 0'],
   },
   inStock: {
     type: Boolean,
-    required: [true, 'Inventory inStock status is required'],
+    default: true,
   },
 });
 
@@ -37,7 +37,7 @@ const productSchema = new Schema<TProduct>(
     price: {
       type: Number,
       required: [true, 'Product price is required'],
-      min: [0, 'Product price must be a positive number'],
+      min: [1, 'Product price can not be 0'],
     },
     category: {
       type: String,
@@ -57,12 +57,6 @@ const productSchema = new Schema<TProduct>(
     variants: {
       type: [variantSchema],
       required: [true, 'Product variants are required'],
-      validate: {
-        validator: function (v: string[]) {
-          return v.length > 0;
-        },
-        message: 'There must be at least one variant',
-      },
     },
     inventory: {
       type: inventorySchema,

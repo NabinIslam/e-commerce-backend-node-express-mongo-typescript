@@ -6,12 +6,8 @@ const variantValidationSchema = z.object({
 });
 
 const inventoryValidationSchema = z.object({
-  quantity: z
-    .number()
-    .min(0, { message: 'Inventory quantity cannot be less than 0' }),
-  inStock: z.boolean({
-    required_error: 'Inventory inStock status is required',
-  }),
+  quantity: z.number().min(0, { message: 'Inventory quantity cannot be 0' }),
+  inStock: z.boolean(),
 });
 
 const productValidationSchema = z.object({
