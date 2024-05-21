@@ -47,7 +47,28 @@ const retrieveAllProducts = async (req: Request, res: Response) => {
   }
 };
 
+const retrieveAProductById = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+
+    const product = await productServices.retrieveAProductFromDB(productId);
+
+    res.status(200).json({
+      success: true,
+      message: 'Product fetched successfully!',
+      data: product,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: `Could not retrieve the product`,
+      error: error.message,
+    });
+  }
+};
+
 export const productControllers = {
   addProduct,
   retrieveAllProducts,
+  retrieveAProductById,
 };

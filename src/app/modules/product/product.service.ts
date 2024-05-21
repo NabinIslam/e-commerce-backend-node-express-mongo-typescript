@@ -6,7 +6,11 @@ const addProductToDB = async (productData: TProduct) =>
 
 const retrieveAllProductsFromDB = async () => await Product.find();
 
+const retrieveAProductFromDB = async (id: string) =>
+  await Product.findOne({ _id: id });
+
 export const productServices = {
   addProductToDB,
   retrieveAllProductsFromDB,
+  retrieveAProductFromDB,
 };
