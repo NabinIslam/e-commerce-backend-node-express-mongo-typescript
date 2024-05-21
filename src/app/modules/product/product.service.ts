@@ -4,7 +4,8 @@ import { Product } from './product.model';
 const addProductToDB = async (productData: TProduct) =>
   await Product.create(productData);
 
-const retrieveAllProductsFromDB = async () => await Product.find();
+const retrieveAllProductsFromDB = async (filter = {}) =>
+  await Product.find(filter);
 
 const retrieveAProductFromDB = async (id: string) =>
   await Product.findOne({ _id: id });

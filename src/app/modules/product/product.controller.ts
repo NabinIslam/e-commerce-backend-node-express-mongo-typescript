@@ -31,7 +31,15 @@ const addProduct = async (req: Request, res: Response) => {
 
 const retrieveAllProducts = async (req: Request, res: Response) => {
   try {
-    const allProducts = await productServices.retrieveAllProductsFromDB();
+    const search = req.query.searchTerm || '';
+
+    const searchRegExp = new RegExp('.*' + search + '.*', 'i');
+
+    const filter = {
+      $or: [{ name: { $regex: searchRegExp } }],
+    };
+
+    const allProducts = await productServices.retrieveAllProductsFromDB(filter);
 
     res.status(200).json({
       success: true,
