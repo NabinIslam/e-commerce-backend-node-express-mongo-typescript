@@ -14,7 +14,7 @@ const createOrder = async (req: Request, res: Response) => {
 
     if (alreadyExists) throw new Error(`Order already exists`);
 
-    const result = await orderServices.craeteOrderInDB(zodParsedData);
+    const result = await orderServices.createOrderInDB(zodParsedData);
 
     res.status(200).json({
       success: true,
@@ -30,6 +30,27 @@ const createOrder = async (req: Request, res: Response) => {
   }
 };
 
+const retrieveAllOrders = async (req: Request, res: Response) => {
+  try {
+    const query = req.query;
+
+    const orders = await orderServices.retrieveAllOrdersFromDB(query);
+
+    res.status(200).json({
+      success: true,
+      message: 'Orders fetched successfully!',
+      data: orders,
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      success: false,
+      message: `Could not retrieve the orders`,
+      error: error.message,
+    });
+  }
+};
+
 export const orderControllers = {
   createOrder,
+  retrieveAllOrders,
 };
