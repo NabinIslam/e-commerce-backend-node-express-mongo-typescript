@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
 import orderValidationSchema from './order.validation';
-
 import { orderServices } from './order.service';
 import { Order } from './order.model';
+import { Product } from '../product/product.model';
+import { TOrderedProduct } from './order.interface';
 
 const createOrder = async (req: Request, res: Response) => {
   try {
@@ -14,7 +15,36 @@ const createOrder = async (req: Request, res: Response) => {
 
     if (alreadyExists) throw new Error(`Order already exists`);
 
+    const orderedProduct: TOrderedProduct | null = await Product.findOne({
+      _id: zodParsedData.productId,
+    });
+
+    if (orderedProduct.inventory.quantity < zodParsedData.quantity)
+      throw new Error(`Insufficient quantity available in inventory`);
+
     const result = await orderServices.createOrderInDB(zodParsedData);
+
+    if (!result) throw new Error(`Order not found`);
+
+    if (result) {
+      const updatedQuantityProduct = await Product.findByIdAndUpdate(
+        orderedProduct?._id,
+        {
+          'inventory.quantity':
+            orderedProduct.inventory.quantity - zodParsedData.quantity,
+        },
+        { new: true },
+      );
+
+      if (updatedQuantityProduct.inventory.quantity === 0)
+        await Product.findByIdAndUpdate(
+          orderedProduct?._id,
+          {
+            'inventory.inStock': false,
+          },
+          { new: true },
+        );
+    }
 
     res.status(200).json({
       success: true,
