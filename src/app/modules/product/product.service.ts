@@ -9,8 +9,12 @@ const retrieveAllProductsFromDB = async () => await Product.find();
 const retrieveAProductFromDB = async (id: string) =>
   await Product.findOne({ _id: id });
 
+const deleteAProductFromDB = async (id: string) =>
+  await Product.findOneAndDelete({ _id: id });
+
 export const productServices = {
   addProductToDB,
   retrieveAllProductsFromDB,
   retrieveAProductFromDB,
+  deleteAProductFromDB,
 };
