@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 export type TVariant = {
   type: string;
   value: string;
@@ -17,3 +19,13 @@ export type TProduct = {
   variants: TVariant[];
   inventory: TInventory;
 };
+
+export type ProductMethod = {
+  isStudentExists(): Promise<TProduct | null>;
+};
+
+export type ProductModel = Model<
+  TProduct,
+  Record<string, never>,
+  ProductMethod
+>;
