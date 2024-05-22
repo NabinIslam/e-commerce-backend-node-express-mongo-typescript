@@ -16,7 +16,7 @@ code .
 - PORT=5000
 - DATABASE_URL=mongodb+srv://EcommerceNodeTypescript:iYdqRCFVNGJcJsFz@cluster0.lqyancf.mongodb.net/ecommerce-node-ts?retryWrites=true&w=majority&appName=Cluster0
 
-### now open the terminal and run these commands
+### Now open the terminal and run these commands
 
 ```bash
 npm install
