@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Request, Response } from 'express';
 import productValidationSchema from './product.validation';
 import { productServices } from './product.service';
