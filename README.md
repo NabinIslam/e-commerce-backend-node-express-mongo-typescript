@@ -7,6 +7,18 @@ This project is an e-commerce backend application built with Node.js and TypeScr
 ```bash
 git clone https://github.com/NabinIslam/e-commerce-backend-node-express-mongo-typescript.git
 cd e-commerce-backend-node-express-mongo-typescript
+code .
+```
+
+### make a file named '.env' in the root of the project and paste these environment variables
+
+NODE_ENV=development
+PORT=5000
+DATABASE_URL=mongodb+srv://EcommerceNodeTypescript:iYdqRCFVNGJcJsFz@cluster0.lqyancf.mongodb.net/ecommerce-node-ts?retryWrites=true&w=majority&appName=Cluster0
+
+### now open the terminal and run these commands
+
+```bash
 npm install
 npm run dev
 ```
