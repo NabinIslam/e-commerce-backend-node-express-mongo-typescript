@@ -15,11 +15,13 @@ const createOrder = async (req: Request, res: Response) => {
 
     if (alreadyExists) throw new Error(`Order already exists`);
 
+    //finding the ordered product by id
     const orderedProduct = await Product.findOne({
       _id: zodParsedData.productId,
     });
 
     if (orderedProduct !== null) {
+      //checking inventory availability
       if (orderedProduct.inventory.quantity < zodParsedData.quantity)
         throw new Error(`Insufficient quantity available in inventory`);
 
@@ -28,6 +30,7 @@ const createOrder = async (req: Request, res: Response) => {
       if (!result) throw new Error(`Order not found`);
 
       if (result) {
+        //updating the ordered product's quantity after order has been created
         const updatedQuantityProduct = await Product.findByIdAndUpdate(
           orderedProduct?._id,
           {
@@ -38,6 +41,7 @@ const createOrder = async (req: Request, res: Response) => {
         );
 
         if (updatedQuantityProduct !== null) {
+          //after order has been created if the quantity becomes zero, updating the stock status to false
           if (updatedQuantityProduct.inventory.quantity === 0)
             await Product.findByIdAndUpdate(
               orderedProduct?._id,
